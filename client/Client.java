@@ -12,7 +12,7 @@ public class Client {
     try {
       Socket client = new Socket(serverName, port);
       
-      while(true) {    
+      while(true) {
         DataInputStream in = new DataInputStream(client.getInputStream());
         System.out.println(in.readUTF());
         

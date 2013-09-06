@@ -8,14 +8,15 @@ If I had to compare the patchneux world to something, I would say that the end p
 
 Quick-Use
 ---------
+Install ant.
 
 To start the server:
 
-    javac PatchNeux.java; java PatchNeux
+    ant run
 
 To start the client:
 
-    javac Client.java; java Client
+    java Client
 
 In-Depth
 ---------
@@ -44,6 +45,7 @@ Goals
  1. Learn about game programming
  1. Learn about multiplayer networking
  1. Learn to write tests in java
+~~1. Learn about packaging~~
 
 ###Inside of patchneux###
 
@@ -51,7 +53,7 @@ Goals
  1. Shortcuts to certain rooms (portals)
  1. Items
  1. Dynamic rooms
- 1. Mapping the neux through a cartesian plane
+ 1. Mapping the neux through a coordinate plane
  1. Remote traveling (the metro)
  1. Chat
  1. Create rooms
@@ -75,6 +77,9 @@ Changelog
 
 0.0.1
 * split into client and server
+* enabled multiple client support
+* added nexus game data
+* started using ant for packaging
 
 0.0.0
 *Initial Commit
