@@ -10,11 +10,11 @@ Quick-Use
 ---------
 Install ant.
 
-To start the server:
+To start the server, enter the server directory and run:
 
     ant run
 
-To start the client:
+To start the client, enter the client directory and run:
 
     java Client
 
@@ -45,20 +45,24 @@ Goals
  1. Learn about game programming
  1. Learn about multiplayer networking
  1. Learn to write tests in java
+
 ~~1. Learn about packaging~~
 
 ###Inside of patchneux###
 
- 1. Moving around the rooms
+ ~~1. Moving around the rooms~~
+
  1. Shortcuts to certain rooms (portals)
  1. Items
  1. Dynamic rooms
- 1. Mapping the neux through a coordinate plane
+
+ ~~1. Mapping the neux through a coordinate plane~~
  1. Remote traveling (the metro)
  1. Chat
  1. Create rooms
  1. Natural Language Processing 
  1. ASCII Art (?)
+
  ~~1. Split server and client~~
 
 Helping Out
@@ -74,6 +78,8 @@ Helping Out
 
 Changelog
 -----------
+0.0.2
+* you can now move in and out of rooms
 
 0.0.1
 * split into client and server

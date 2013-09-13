@@ -1,1 +1,1 @@
-{"coordinate":[0,0],"sides":6,"metro":"currently closed","left":"a blank wall","right":"a blank wall","portal1":"unassigned","portal2":"unassigned","portal3":"unassigned","portal4":"unassigned"}
+{"coordinate":"0,0","orientation":"N","name":"The Neux","left":"a blank room","right":"your home","ahead":"a currently closed metro","behind":"the exit"}

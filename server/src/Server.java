@@ -8,6 +8,20 @@ public class Server implements Runnable {
     this.server = server;
   }
 
+  public void clear() {
+    try {
+      if( System.getProperty( "os.name" ).startsWith( "Window" ) ) {
+        Runtime.getRuntime().exec("cls");
+      } else {
+        Runtime.getRuntime().exec("clear");
+      }
+    } catch (IOException e) {
+      for(int i = 0; i < 1000; i++) {
+        System.out.println();
+      }
+    }
+  }
+
   public void run() {
     try {
       Loading prep = new Loading();
@@ -21,7 +35,9 @@ public class Server implements Runnable {
       out.writeUTF(intro);
       while(true) {
         String client_message = in.readUTF();
-        out.writeUTF(client_message);
+        String server_message = parser.parse(client_message);
+        clear();
+        out.writeUTF(server_message);
       }
     } catch (EOFException e) {
     } catch (IOException e) { e.printStackTrace(); 
