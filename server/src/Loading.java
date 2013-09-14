@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,7 +23,7 @@ public class Loading {
       createFile(dataList);
     }
   }
-
+  
   public void createFile(final List dataList) {
     File file = new File(dataList.get(0).toString());
     LinkedHashMap<String, Object> rawGameData = new LinkedHashMap<String, Object>()

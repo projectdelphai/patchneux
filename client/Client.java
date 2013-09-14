@@ -14,7 +14,18 @@ public class Client {
       
       while(true) {
         DataInputStream in = new DataInputStream(client.getInputStream());
-        System.out.println(in.readUTF());
+        String serverMessage = in.readUTF();
+        if (serverMessage.endsWith("END")) {
+          serverMessage = serverMessage.substring(0, serverMessage.length() - 3);
+          System.out.println(serverMessage);
+        } else {
+          while(!serverMessage.endsWith("END")) {
+            System.out.println(serverMessage);
+            serverMessage = in.readUTF();
+          }
+          serverMessage = serverMessage.substring(0, serverMessage.length() - 3);
+          System.out.println(serverMessage);
+        }
         
         String response = query.next();
         DataOutputStream out = new DataOutputStream(client.getOutputStream());

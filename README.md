@@ -21,6 +21,20 @@ To start the client, enter the client directory and run:
 In-Depth
 ---------
 
+To move around:
+
+    gright, gleft, gforward, gbackward
+
+This syntax may change to:
+
+    gright, gleft, gahead, gbehind
+
+To create rooms:
+
+    cr
+
+Be forewarned that this will not update all your other rooms with this new room, so you can create the room but not get to it. Wait until this is fixed to use this feature. 
+
 
 Code
 ----------
@@ -40,28 +54,29 @@ Goals
 
 ###Outside of patchneux###
 
- 1. Learn about lower-level programs
- 1. Write better docs
- 1. Learn about game programming
- 1. Learn about multiplayer networking
- 1. Learn to write tests in java
+  1. Learn about lower-level programs
+  1. Write better docs
+  1. Learn about game programming
+  1. Learn about multiplayer networking
+  1. Learn to write tests in java
 
-~~1. Learn about packaging~~
+ ~~1. Learn about packaging~~
 
 ###Inside of patchneux###
 
  ~~1. Moving around the rooms~~
 
- 1. Shortcuts to certain rooms (portals)
- 1. Items
- 1. Dynamic rooms
+  1. Shortcuts to certain rooms (portals)
+  1. Items
+  1. Dynamic rooms
 
  ~~1. Mapping the neux through a coordinate plane~~
- 1. Remote traveling (the metro)
- 1. Chat
- 1. Create rooms
- 1. Natural Language Processing 
- 1. ASCII Art (?)
+
+  1. Remote traveling (the metro)
+  1. Chat
+  1. Create rooms
+  1. Natural Language Processing 
+  1. ASCII Art (?)
 
  ~~1. Split server and client~~
 
@@ -80,6 +95,7 @@ Changelog
 -----------
 0.0.2
 * you can now move in and out of rooms
+* create rooms (still bugged)
 
 0.0.1
 * split into client and server

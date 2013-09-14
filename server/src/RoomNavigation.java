@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 import com.google.gson.Gson;
 
-public class Navigation {
+public class RoomNavigation {
   public HashMap getRoomData(String fileName) {
     String line = null;
     String json = line;
@@ -51,7 +51,7 @@ public class Navigation {
     return newList;
   }
 
-  public String moveCoordinate(String direction, String oldCoordinate) {
+  public String getNewCoordinate(String direction, String oldCoordinate) {
     String[] parts = oldCoordinate.split(",");
     int x = Integer.parseInt(parts[0]);
     int y = Integer.parseInt(parts[1]);
@@ -83,14 +83,14 @@ public class Navigation {
     return response;
   }
 
-  public Boolean blankWall(String parsedClientMessage, HashMap roomData) {
+  public Boolean blankWall(String moveDirection, HashMap roomData) {
     String direction = "";
-    if (parsedClientMessage.equals("forward")) {
+    if (moveDirection.equals("forward")) {
       direction = "ahead";
-    } else if (parsedClientMessage.equals("backward")) {
+    } else if (moveDirection.equals("backward")) {
       direction = "behind";
     } else {
-      direction = parsedClientMessage;
+      direction = moveDirection;
     }
     if (roomData.get(direction).equals("a blank wall")) {
       return true;
@@ -107,20 +107,16 @@ public class Navigation {
       return false;
     }
   }
-      
-  public String move(String client_message) {
-    String parsedClientMessage = client_message.substring(1);
-    // figure out cardinal point to move 
-    HashMap roomData = getRoomData("./data/current");
-    if (blankWall(parsedClientMessage, roomData)) {
-      String response = "There is no room there. Try again";
-      return response;
-    }
+
+  public List orientCardinalRose(HashMap roomData) {
     List rawCardinalRose = Arrays.asList("N", "E", "S", "W");
     List directions = Arrays.asList("forward", "right", "backward", "left");
     int rawCRIndex = rawCardinalRose.indexOf(roomData.get("orientation"));
-    final List cardinalRose = orientList(rawCardinalRose, rawCRIndex);
+    List cardinalRose = orientList(rawCardinalRose, rawCRIndex);
+    return cardinalRose;
+  }
 
+  public String determineCardinalDirectionToMove(String moveDirection, HashMap roomData, final List cardinalRose) {
     HashMap<String,String> directionToCardinal = new HashMap<String,String>()
     {{
        put("forward", cardinalRose.get(0).toString());
@@ -129,24 +125,84 @@ public class Navigation {
        put("left", cardinalRose.get(3).toString());
     }};
     String orientation = roomData.get("orientation").toString();
-    String moveDirection = directionToCardinal.get(parsedClientMessage);
-    // move coordinate
-    String newCoordinate = moveCoordinate(moveDirection, roomData.get("coordinate").toString());
+    String moveCardinalDirection = directionToCardinal.get(moveDirection);
+    return moveCardinalDirection;
+  }
+
+  public HashMap connectDirectionsToCardinal(List cardinalRose, String moveCardinalDirection) {
+    int cardinalIndex = cardinalRose.indexOf(moveCardinalDirection);
+    List sortedCardinalRose = orientList(cardinalRose, cardinalIndex);
+    List directions = Arrays.asList("forward", "right", "backward", "left");
+    HashMap DirectionToCardinal = new HashMap();
+    for (int i = 0; i < directions.size(); i++) {
+      DirectionToCardinal.put(directions.get(i), sortedCardinalRose.get(i));
+    }
+    return DirectionToCardinal;
+  }
+
+  public String move(String moveDirection) {
+    HashMap roomData = getRoomData("./data/current");
+    List cardinalRose = orientCardinalRose(roomData);
+    if (blankWall(moveDirection, roomData)) {
+      String response = "There is no room there. Try again";
+      return response;
+    }
+    String moveCardinalDirection = determineCardinalDirectionToMove(moveDirection,roomData,cardinalRose);
+    String newCoordinate = getNewCoordinate(moveCardinalDirection, roomData.get("coordinate").toString());
     if (!coordinateValid(newCoordinate)) {
       String response = "You are not allowed to go in here. Try again";
       return response;
     }
-    int cardinalIndex = cardinalRose.indexOf(moveDirection);
+    int cardinalIndex = cardinalRose.indexOf(moveCardinalDirection);
     List sortedCardinalRose = orientList(cardinalRose, cardinalIndex);
-    HashMap map = new HashMap();
-    for (int i = 0; i < directions.size(); i++) {
-      map.put(directions.get(i), sortedCardinalRose.get(i));
-    }
+    HashMap DirectionToCardinal = connectDirectionsToCardinal(cardinalRose, moveCardinalDirection);
     HashMap newRoomData = getRoomData("./data/room"+newCoordinate);
-    List newCurrentRoom = Arrays.asList("./data/current", newCoordinate, sortedCardinalRose.get(0), newRoomData.get("name"), getAdjacentRoom(newRoomData, map.get("left")), getAdjacentRoom(newRoomData, map.get("right")), getAdjacentRoom(newRoomData, map.get("forward")), getAdjacentRoom(newRoomData, map.get("backward")));
+    List newCurrentRoom = Arrays.asList("./data/current", newCoordinate, sortedCardinalRose.get(0), newRoomData.get("name"), getAdjacentRoom(newRoomData, DirectionToCardinal.get("left")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("right")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("forward")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("backward")));
     Loading loading = new Loading();
     loading.createFile(newCurrentRoom);
     String response = currentRoomIntro();
     return response;
+  }
+
+  public String createRoom(DataInputStream in, DataOutputStream out, String clientMessage) {
+    String roomName = "Blank Room";
+    String roomSide = "Left";
+    try {
+      out.writeUTF("What is the name of the new room?END");
+      roomName = in.readUTF();
+      out.writeUTF("On which side do you want to create this room?END");
+      roomSide = in.readUTF();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    HashMap roomData = getRoomData("./data/current");
+    List cardinalRose = orientCardinalRose(roomData);
+    String moveCardinalDirection = determineCardinalDirectionToMove(roomSide,roomData,cardinalRose);
+    System.out.println(moveCardinalDirection);
+    String newCoordinate = getNewCoordinate(moveCardinalDirection, roomData.get("coordinate").toString());
+    if (coordinateValid(newCoordinate)) {
+      String response = "You are not allowed to create a room here. Try again";
+      return response;
+    }
+    String N = getNameOfRoom("N", newCoordinate);
+    String E = getNameOfRoom("E", newCoordinate);
+    String W = getNameOfRoom("W", newCoordinate);
+    String S = getNameOfRoom("S", newCoordinate);
+    List newRoomData = Arrays.asList("./data/room"+newCoordinate, newCoordinate, "N", roomName, W, E, N, S);
+    Loading loading = new Loading();
+    loading.createFile(newRoomData);
+    return "Room created";
+  }
+
+  public String getNameOfRoom(String cardinalDirection, String coordinate) {
+    String newCoordinate = getNewCoordinate(cardinalDirection, coordinate);
+    String nameOfRoom = "a blank wall";
+    if (!coordinateValid(newCoordinate)) {
+      return nameOfRoom;
+    } else {
+      HashMap tmpRoomData = getRoomData("./data/room"+newCoordinate);
+      nameOfRoom = tmpRoomData.get("name").toString();
+      return nameOfRoom;
+    }
   }
 }
