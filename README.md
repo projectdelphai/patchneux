@@ -23,18 +23,16 @@ In-Depth
 
 To move around:
 
-    gright, gleft, gforward, gbackward
-
-This syntax may change to:
-
     gright, gleft, gahead, gbehind
 
 To create rooms:
 
     cr
 
-Be forewarned that this will not update all your other rooms with this new room, so you can create the room but not get to it. Wait until this is fixed to use this feature. 
+###Bugs###
 
+ 1. Room names may not yet contain any spaces.
+ 1. If you type g then a word that is not an accepted direction, the server will crash. Just reset both server and client.
 
 Code
 ----------
@@ -74,7 +72,7 @@ Goals
 
   1. Remote traveling (the metro)
   1. Chat
-  1. Create rooms
+ ~~1. Create rooms~~
   1. Natural Language Processing 
   1. ASCII Art (?)
 
@@ -95,7 +93,8 @@ Changelog
 -----------
 0.0.2
 * you can now move in and out of rooms
-* create rooms (still bugged)
+* create rooms
+* changed syntax for moving around
 
 0.0.1
 * split into client and server

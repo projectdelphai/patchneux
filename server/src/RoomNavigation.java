@@ -19,8 +19,8 @@ public class RoomNavigation {
       e.printStackTrace();
     }
     Gson gson = new Gson();
-    HashMap<String,Object> roomData = new HashMap<String, Object>();
-    roomData=(HashMap<String,Object>) gson.fromJson(json, roomData.getClass());
+    HashMap roomData = new HashMap();
+    roomData=(HashMap) gson.fromJson(json, roomData.getClass());
     return roomData;
   }
 
@@ -84,15 +84,7 @@ public class RoomNavigation {
   }
 
   public Boolean blankWall(String moveDirection, HashMap roomData) {
-    String direction = "";
-    if (moveDirection.equals("forward")) {
-      direction = "ahead";
-    } else if (moveDirection.equals("backward")) {
-      direction = "behind";
-    } else {
-      direction = moveDirection;
-    }
-    if (roomData.get(direction).equals("a blank wall")) {
+    if (roomData.get(moveDirection).equals("a blank wall")) {
       return true;
     } else {
       return false;
@@ -110,7 +102,6 @@ public class RoomNavigation {
 
   public List orientCardinalRose(HashMap roomData) {
     List rawCardinalRose = Arrays.asList("N", "E", "S", "W");
-    List directions = Arrays.asList("forward", "right", "backward", "left");
     int rawCRIndex = rawCardinalRose.indexOf(roomData.get("orientation"));
     List cardinalRose = orientList(rawCardinalRose, rawCRIndex);
     return cardinalRose;
@@ -119,9 +110,9 @@ public class RoomNavigation {
   public String determineCardinalDirectionToMove(String moveDirection, HashMap roomData, final List cardinalRose) {
     HashMap<String,String> directionToCardinal = new HashMap<String,String>()
     {{
-       put("forward", cardinalRose.get(0).toString());
+       put("ahead", cardinalRose.get(0).toString());
        put("right", cardinalRose.get(1).toString());
-       put("backward", cardinalRose.get(2).toString());
+       put("behind", cardinalRose.get(2).toString());
        put("left", cardinalRose.get(3).toString());
     }};
     String orientation = roomData.get("orientation").toString();
@@ -132,7 +123,7 @@ public class RoomNavigation {
   public HashMap connectDirectionsToCardinal(List cardinalRose, String moveCardinalDirection) {
     int cardinalIndex = cardinalRose.indexOf(moveCardinalDirection);
     List sortedCardinalRose = orientList(cardinalRose, cardinalIndex);
-    List directions = Arrays.asList("forward", "right", "backward", "left");
+    List directions = Arrays.asList("ahead", "right", "behind", "left");
     HashMap DirectionToCardinal = new HashMap();
     for (int i = 0; i < directions.size(); i++) {
       DirectionToCardinal.put(directions.get(i), sortedCardinalRose.get(i));
@@ -157,7 +148,7 @@ public class RoomNavigation {
     List sortedCardinalRose = orientList(cardinalRose, cardinalIndex);
     HashMap DirectionToCardinal = connectDirectionsToCardinal(cardinalRose, moveCardinalDirection);
     HashMap newRoomData = getRoomData("./data/room"+newCoordinate);
-    List newCurrentRoom = Arrays.asList("./data/current", newCoordinate, sortedCardinalRose.get(0), newRoomData.get("name"), getAdjacentRoom(newRoomData, DirectionToCardinal.get("left")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("right")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("forward")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("backward")));
+    List newCurrentRoom = Arrays.asList("./data/current", newCoordinate, sortedCardinalRose.get(0), newRoomData.get("name"), getAdjacentRoom(newRoomData, DirectionToCardinal.get("left")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("right")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("ahead")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("behind")));
     Loading loading = new Loading();
     loading.createFile(newCurrentRoom);
     String response = currentRoomIntro();
@@ -166,7 +157,7 @@ public class RoomNavigation {
 
   public String createRoom(DataInputStream in, DataOutputStream out, String clientMessage) {
     String roomName = "Blank Room";
-    String roomSide = "Left";
+    String roomSide = "left";
     try {
       out.writeUTF("What is the name of the new room?END");
       roomName = in.readUTF();
@@ -178,7 +169,6 @@ public class RoomNavigation {
     HashMap roomData = getRoomData("./data/current");
     List cardinalRose = orientCardinalRose(roomData);
     String moveCardinalDirection = determineCardinalDirectionToMove(roomSide,roomData,cardinalRose);
-    System.out.println(moveCardinalDirection);
     String newCoordinate = getNewCoordinate(moveCardinalDirection, roomData.get("coordinate").toString());
     if (coordinateValid(newCoordinate)) {
       String response = "You are not allowed to create a room here. Try again";
@@ -191,7 +181,41 @@ public class RoomNavigation {
     List newRoomData = Arrays.asList("./data/room"+newCoordinate, newCoordinate, "N", roomName, W, E, N, S);
     Loading loading = new Loading();
     loading.createFile(newRoomData);
+    updateAdjacentRooms(newCoordinate, roomName, roomSide);
     return "Room created";
+  }
+
+  public void updateAdjacentRooms(String newCoordinate, String roomName, String roomSide) {
+    List sideRooms = Arrays.asList(getNewCoordinate("N", newCoordinate), getNewCoordinate("W", newCoordinate), getNewCoordinate("E", newCoordinate), getNewCoordinate("S", newCoordinate));
+    int index = 0;
+    HashMap oppositeCardinals = new HashMap()
+    {{
+       put("N", "S");
+       put("W", "E");
+       put("E", "W");
+       put("S", "N");
+    }};
+    HashMap CardinalToDirection = new HashMap()
+    {{
+       put("N", "ahead");
+       put("W", "left");
+       put("E", "right");
+       put("S", "behind");
+    }};
+    List orderOfCardinals = Arrays.asList("N", "W", "E", "S");
+    for (Object sideRoomCoordinate : sideRooms) {
+      if (coordinateValid(sideRoomCoordinate.toString())) {
+        HashMap newRoomData = getRoomData("./data/room"+sideRoomCoordinate);
+        newRoomData.put(CardinalToDirection.get(oppositeCardinals.get(orderOfCardinals.get(index))), roomName);
+        Loading loading = new Loading();
+        loading.writeFile("./data/room"+sideRoomCoordinate, newRoomData);
+        HashMap currentRoomData = getRoomData("./data/current");
+        currentRoomData.put(roomSide, roomName);
+        loading.writeFile("./data/current", currentRoomData);
+      } else {
+        index = index+1;
+      }
+    }
   }
 
   public String getNameOfRoom(String cardinalDirection, String coordinate) {

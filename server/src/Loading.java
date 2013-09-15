@@ -25,8 +25,7 @@ public class Loading {
   }
   
   public void createFile(final List dataList) {
-    File file = new File(dataList.get(0).toString());
-    LinkedHashMap<String, Object> rawGameData = new LinkedHashMap<String, Object>()
+    HashMap rawGameData = new HashMap()
     {{
        put("coordinate", dataList.get(1));
        put("orientation", dataList.get(2));
@@ -35,9 +34,14 @@ public class Loading {
        put("right", dataList.get(5));
        put("ahead", dataList.get(6));
        put("behind", dataList.get(7));
-     }};
+     }};    
+    writeFile(dataList.get(0).toString(), rawGameData);
+  }
+
+  public void writeFile(String fileName, HashMap rawGameData) {
+    File file = new File(fileName);
     Gson gson = new Gson();
-    String defaultGameData = gson.toJson(rawGameData, new TypeToken<LinkedHashMap<String,Object>>(){}.getType());
+    String defaultGameData = gson.toJson(rawGameData, new TypeToken<HashMap<String,Object>>(){}.getType());
     try {
       file.getParentFile().mkdirs();
       PrintWriter writer = new PrintWriter(file, "UTF-8");
