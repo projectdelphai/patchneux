@@ -5,7 +5,7 @@ public class Parser {
   public String intro(String user_name) {
     RoomNavigation nav = new RoomNavigation();
     HashMap roomData = nav.getRoomData("./data/current");
-    String intro = "Welcome to "+roomData.get("name") +", "+ user_name + ". Your neux looks like a hexagon. Ahead is "+ roomData.get("ahead") + ". Behind you is "+roomData.get("behind") +". To your right is " +roomData.get("right") + " and to your left is " + roomData.get("left") + ". What would you like to do?";
+    String intro = new RoomNavigation().currentRoomIntro();
     return intro;
   }
 
@@ -14,7 +14,12 @@ public class Parser {
     RoomNavigation nav = new RoomNavigation();
     if (clientMessage.startsWith("g")) {
       clientMessage = clientMessage.substring(1);
-      response = nav.move(clientMessage);
+      List options = Arrays.asList("right", "left", "ahead", "behind");
+      if (options.contains(clientMessage)) {
+        response = nav.move(clientMessage);
+      } else {
+        response = "That is an invalid option";
+      }
     } else if (clientMessage.startsWith("c")) {
       clientMessage = clientMessage.substring(1);
       if (clientMessage.startsWith("r")) {

@@ -93,6 +93,8 @@ Changelog
 -----------
 0.0.3
 * started basics for items
+* transitioned to flexjson from gson
+* filtered for correct move directions
 
 0.0.2
 * you can now move in and out of rooms

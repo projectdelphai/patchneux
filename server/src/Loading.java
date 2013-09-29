@@ -48,11 +48,13 @@ public class Loading {
        put("right", dataList.get(5));
        put("ahead", dataList.get(6));
        put("behind", dataList.get(7));
-    }}; 
+    }};
     if (optMaps.length != 0) {
       for (int i=0; i < optMaps.length; i++) {
-        if (optMaps[i].get("type") == "items") {
-          rawGameData.put("items", optMaps[i]);
+        if (optMaps[i] != null) {
+          if (optMaps[i].get("type").equals("items")) {
+            rawGameData.put("items", optMaps[i]);
+          }
         }
       }
     }

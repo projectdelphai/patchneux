@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import com.google.gson.Gson;
+import flexjson.JSONDeserializer;
 
 public class RoomNavigation {
   public HashMap getRoomData(String fileName) {
@@ -20,14 +21,28 @@ public class RoomNavigation {
     }
     Gson gson = new Gson();
     HashMap roomData = new HashMap();
-    roomData=(HashMap) gson.fromJson(json, roomData.getClass());
+    //roomData=(HashMap) gson.fromJson(json, roomData.getClass());
+    roomData = new JSONDeserializer<HashMap>().deserialize(json);
     return roomData;
   }
 
   public String currentRoomIntro() {
     HashMap roomData = getRoomData("./data/current");
-    String intro = "Welcome to "+roomData.get("name") +". Ahead is "+ roomData.get("ahead") + ". Behind you is "+roomData.get("behind") +". To your right is " +roomData.get("right") + " and to your left is " + roomData.get("left") + ". What would you like to do?";
-    return intro;
+    HashMap itemMap = getItemMap(roomData);
+    String roomStructure = "Welcome to "+roomData.get("name") +". Ahead is "+ roomData.get("ahead") + ". Behind you is "+roomData.get("behind") +". To your right is " +roomData.get("right") + " and to your left is " + roomData.get("left") + ". ";
+    String roomItems = null;
+    if (itemMap != null) {
+      if (itemMap.size() > 0) {
+        roomItems = "The items around you:";
+        for (Object key : itemMap.keySet()) {
+          if (!key.equals("type")) {
+            roomItems = roomItems + " " + key + ",";
+          }
+        }
+        roomItems = roomItems + ".";
+      }
+    }
+    return roomStructure+roomItems;
   }
 
   public Integer increaseIndex(Integer index) {
@@ -131,6 +146,14 @@ public class RoomNavigation {
     return DirectionToCardinal;
   }
 
+  public HashMap getItemMap(HashMap roomData) {
+    HashMap itemMap = null;
+    if (roomData.get("items") != null) {
+      itemMap = (HashMap)roomData.get("items");
+    }
+    return itemMap;
+  }
+
   public String move(String moveDirection) {
     HashMap roomData = getRoomData("./data/current");
     List cardinalRose = orientCardinalRose(roomData);
@@ -148,9 +171,10 @@ public class RoomNavigation {
     List sortedCardinalRose = orientList(cardinalRose, cardinalIndex);
     HashMap DirectionToCardinal = connectDirectionsToCardinal(cardinalRose, moveCardinalDirection);
     HashMap newRoomData = getRoomData("./data/room"+newCoordinate);
+    HashMap itemMap = getItemMap(newRoomData);
     List newCurrentRoom = Arrays.asList("./data/current", newCoordinate, sortedCardinalRose.get(0), newRoomData.get("name"), getAdjacentRoom(newRoomData, DirectionToCardinal.get("left")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("right")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("ahead")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("behind")));
     Loading loading = new Loading();
-    loading.createFile(newCurrentRoom);
+    loading.createFile(newCurrentRoom, itemMap);
     String response = currentRoomIntro();
     return response;
   }
