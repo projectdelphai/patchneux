@@ -91,6 +91,9 @@ Helping Out
 
 Changelog
 -----------
+0.0.3
+* started basics for items
+
 0.0.2
 * you can now move in and out of rooms
 * create rooms
