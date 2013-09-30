@@ -25,6 +25,32 @@ public class Loading {
     checkThenCreate(room3, itemMap);
     List current = Arrays.asList("./data/current", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
     checkThenCreate(current);
+    createProfile();
+  }
+
+  public void createProfile() {
+    final HashMap emptyHashMap = new HashMap()
+    {{
+       put("type", "empty");
+    }};
+    HashMap profileData = new HashMap()
+    {{
+       put("inventory1", emptyHashMap);
+       put("inventory2", emptyHashMap);
+       put("inventory3", emptyHashMap);
+       put("inventory4", emptyHashMap);
+       put("inventory5", emptyHashMap);
+       put("inventory6", emptyHashMap);
+       put("health", "1");
+       put("attack", "1");
+       put("defense", "1");
+       put("strength", "1");
+    }};
+    String fileName = "./data/profile";
+    File file = new File(fileName);
+    if(!file.exists()) {
+      writeFile(fileName, profileData);
+    }
   }
 
   public void checkThenCreate(List dataList, HashMap... optMaps) {

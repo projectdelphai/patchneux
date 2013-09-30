@@ -29,6 +29,18 @@ To create rooms:
 
     cr
 
+To learn about an item:
+
+    i<itemName>
+
+To pick up an item:
+
+    p<itemName>
+
+To learn about yourself and/or view profile:
+
+    aboutme
+
 ###Bugs###
 
  1. Room names may not yet contain any spaces.
@@ -66,13 +78,12 @@ Goals
 
   1. Shortcuts to certain rooms (portals)
   1. Items
-  1. Dynamic rooms
 
  ~~1. Mapping the neux through a coordinate plane~~
 
   1. Remote traveling (the metro)
   1. Chat
- ~~1. Create rooms~~
+  1. Create rooms
   1. Natural Language Processing 
   1. ASCII Art (?)
 
@@ -89,12 +100,17 @@ Helping Out
  1. Make a pull request
  1. Write tests (optional but recommended for now)
 
+Todo
+-----------
+* drop an item
+
 Changelog
 -----------
 0.0.3
-* started basics for items
+* basic items (info, pickup)
 * transitioned to flexjson from gson
-* filtered for correct move directions
+* now have a profile (inventory, some stats)
+* removed some bugs (null at end of intro, error at wrong move directions)
 
 0.0.2
 * you can now move in and out of rooms

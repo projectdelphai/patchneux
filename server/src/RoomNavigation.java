@@ -1,27 +1,11 @@
 import java.io.*;
 import java.util.*;
-import com.google.gson.Gson;
 import flexjson.JSONDeserializer;
 
 public class RoomNavigation {
   public HashMap getRoomData(String fileName) {
-    String line = null;
-    String json = line;
-    try {
-      FileReader fileReader = new FileReader(fileName);
-      BufferedReader bufferedReader = new BufferedReader(fileReader);
-      while((line = bufferedReader.readLine()) != null) {
-        json = line;
-      }
-      bufferedReader.close();
-    } catch(FileNotFoundException ex) {
-      System.out.println( "Unable to open file '" + fileName + "'");
-    } catch(IOException e) {
-      e.printStackTrace();
-    }
-    Gson gson = new Gson();
+    String json = new IOMethods().readJsonFile(fileName);
     HashMap roomData = new HashMap();
-    //roomData=(HashMap) gson.fromJson(json, roomData.getClass());
     roomData = new JSONDeserializer<HashMap>().deserialize(json);
     return roomData;
   }
@@ -32,7 +16,7 @@ public class RoomNavigation {
     String roomStructure = "Welcome to "+roomData.get("name") +". Ahead is "+ roomData.get("ahead") + ". Behind you is "+roomData.get("behind") +". To your right is " +roomData.get("right") + " and to your left is " + roomData.get("left") + ". ";
     String roomItems = null;
     if (itemMap != null) {
-      if (itemMap.size() > 0) {
+      if (itemMap.size() > 1) {
         roomItems = "The items around you:";
         for (Object key : itemMap.keySet()) {
           if (!key.equals("type")) {
@@ -42,7 +26,8 @@ public class RoomNavigation {
         roomItems = roomItems + ".";
       }
     }
-    return roomStructure+roomItems;
+    String response = (roomStructure+roomItems).replace(" null", "");
+    return response;
   }
 
   public Integer increaseIndex(Integer index) {
