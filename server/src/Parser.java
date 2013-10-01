@@ -30,6 +30,10 @@ public class Parser {
       response = new Item().info(clientMessage.substring(1));
     } else if (clientMessage.startsWith("p")) {
       response = new Item().pickUp(clientMessage.substring(1));
+    } else if (clientMessage.startsWith("drop")) {
+      response = new Item().dropItem(clientMessage.substring(4));
+    } else if (clientMessage.startsWith("lookaround")) {
+      response = new RoomNavigation().currentRoomIntro();
     } else {
       return response;
     }

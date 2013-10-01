@@ -41,10 +41,13 @@ To learn about yourself and/or view profile:
 
     aboutme
 
+To look around and learn about the room (important for after you've done an action and want to confirm that it worked):
+
+    lookaround
+
 ###Bugs###
 
  1. Room names may not yet contain any spaces.
- 1. If you type g then a word that is not an accepted direction, the server will crash. Just reset both server and client.
 
 Code
 ----------
@@ -107,10 +110,11 @@ Todo
 Changelog
 -----------
 0.0.3
-* basic items (info, pickup)
+* basic items (info, pickup, drop)
 * transitioned to flexjson from gson
 * now have a profile (inventory, some stats)
 * removed some bugs (null at end of intro, error at wrong move directions)
+* lookaround,aboutme functions
 
 0.0.2
 * you can now move in and out of rooms
