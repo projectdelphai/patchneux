@@ -132,7 +132,10 @@ public class RoomNavigation {
   }
 
   public HashMap getItemMap(HashMap roomData) {
-    HashMap itemMap = null;
+    HashMap itemMap = new HashMap()
+    {{
+       put("type", "items");
+    }};
     if (roomData.get("items") != null) {
       itemMap = (HashMap)roomData.get("items");
     }

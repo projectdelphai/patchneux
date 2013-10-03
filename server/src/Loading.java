@@ -9,7 +9,17 @@ public class Loading {
     List room1 = Arrays.asList("./data/room0,0", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
     checkThenCreate(room1);
     List room2 = Arrays.asList("./data/room-1,0", "-1,0", "N", "A Blank Room", "a blank wall", "the neux", "a blank wall", "a blank wall");
-    checkThenCreate(room2);
+    final HashMap guideDetails = new HashMap()
+    {{
+       put("category", "npc");
+       put("description", "a helpful guide to help you out");
+    }};
+    HashMap itemMap = new HashMap()
+    {{
+       put("type", "items");
+       put("guide", guideDetails);
+    }};
+    checkThenCreate(room2, itemMap);
     List room3 = Arrays.asList("./data/room1,0", "1,0", "N", "Home", "the neux", "a blank wall", "a blank wall", "a blank wall");
     final HashMap appleDetails = new HashMap()
     {{
@@ -17,7 +27,7 @@ public class Loading {
        put("description", "a juicy red apple ripe for consumption (+5)");
        put("healthIncrease", 5);
     }};
-    HashMap itemMap = new HashMap()
+    itemMap = new HashMap()
     {{
        put("type", "items");
        put("apple", appleDetails);
@@ -78,9 +88,7 @@ public class Loading {
     if (optMaps.length != 0) {
       for (int i=0; i < optMaps.length; i++) {
         if (optMaps[i] != null) {
-          if (optMaps[i].get("type").equals("items")) {
-            rawGameData.put("items", optMaps[i]);
-          }
+          rawGameData.put("items", optMaps[i]);
         }
       }
     }

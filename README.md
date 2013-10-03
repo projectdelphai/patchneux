@@ -45,6 +45,10 @@ To look around and learn about the room (important for after you've done an acti
 
     lookaround
 
+To drop items:
+
+    drop<itemName>
+
 ###Bugs###
 
  1. Room names may not yet contain any spaces.

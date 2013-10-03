@@ -11,7 +11,7 @@ public class Item {
       for (Map.Entry<String, HashMap> profileEntry : ((HashMap<String, HashMap>)roomData).entrySet()) {
         if (profileEntry.getKey().startsWith("inventory")) {
           if (profileEntry.getValue().get("type").equals(itemName)) {
-            response = Arrays.asList("true", profileEntry.getValue().get("type"), profileEntry.getValue(), profileEntry.getKey());
+            response = Arrays.asList("true", profileEntry.getValue().get("type"), profileEntry.getValue().get("details"), profileEntry.getKey());
           }
         }
       }
