@@ -116,6 +116,9 @@ Todo
 
 Changelog
 -----------
+0.0.4
+* introduced basic test support (using junit 4)
+
 0.0.3
 * basic items (info, pickup, drop)
 * transitioned to flexjson from gson
