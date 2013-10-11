@@ -34,7 +34,7 @@ public class Item {
     String rawRoomJson = new IOMethods().readJsonFile("./data/current");
     HashMap roomData = new JSONDeserializer<HashMap>().deserialize(rawRoomJson);
     HashMap itemMap = new RoomNavigation().getItemMap(roomData);
-    itemMap.remove("apple");
+    itemMap.remove(itemName);
     roomData.put("items", itemMap);
     Loading loading = new Loading();
     loading.writeFile(fileName, roomData);

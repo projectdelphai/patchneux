@@ -52,6 +52,8 @@ To drop items:
 ###Bugs###
 
  1. Room names may not yet contain any spaces.
+ 1. Items end with commas
+ 1. a/an not specified for objects
 
 Code
 ----------
@@ -76,6 +78,7 @@ Goals
   1. Learn about game programming
   1. Learn about multiplayer networking
   1. Learn to write tests in java
+  1. Learn about git feature branches
 
  ~~1. Learn about packaging~~
 
@@ -119,6 +122,7 @@ Changelog
 * now have a profile (inventory, some stats)
 * removed some bugs (null at end of intro, error at wrong move directions)
 * lookaround,aboutme functions
+* introduced guide
 
 0.0.2
 * you can now move in and out of rooms
