@@ -1,21 +1,12 @@
 import static org.junit.Assert.assertEquals;
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.both;
-import static org.junit.matchers.JUnitMatchers.containsString;
-import static org.junit.matchers.JUnitMatchers.everyItem;
-import static org.junit.matchers.JUnitMatchers.hasItems;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.File;
 /**
  * Tests for RoomNavigation
  *
@@ -23,13 +14,28 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public class RoomNavigationTest {
+  private final RoomNavigation rnav = new RoomNavigation();
+    @BeforeClass
+    public static void before() {
+      Loading loading = new Loading("./testdata/");
+      loading.prepGameData();
+    }
 
     @Test
     public void increaseIndex() {
-      RoomNavigation rnav = new RoomNavigation();
       int expected = 0;
       int actual = rnav.increaseIndex(3);
       assertEquals("Failure - index was not increased", expected, actual);
+    }
+
+    @Test
+    public void moveThroughLockedDoors() {
+    }
+
+    @AfterClass
+    public static void after() {
+      File dir = new File("./testdata");
+      for(File file: dir.listFiles()) file.delete();
     }
 
 }

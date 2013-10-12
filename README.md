@@ -112,12 +112,15 @@ Helping Out
 
 Todo
 -----------
-* drop an item
+* lock a door
+* unlock a door
+* write a test for the above
 
 Changelog
 -----------
 0.0.4
 * introduced basic test support (using junit 4)
+* introduced dynamic data folder support (maybe leading to a config file?)
 
 0.0.3
 * basic items (info, pickup, drop)

@@ -4,11 +4,22 @@ import java.util.*;
 import flexjson.JSONSerializer;
 
 public class Loading {
+  private static String dataFolder;
+  
+  public Loading(String... arg) {
+    if (arg.length != 0) {
+      dataFolder = arg[0];
+    } else {
+      dataFolder = dataFolder+"";
+    }
+  }
+
   public void prepGameData() {
     // filename, coordinate, orientation, name, left, right, ahead, behind,
-    List room1 = Arrays.asList("./data/room0,0", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
+    List room1 = Arrays.asList(dataFolder+"room0,0", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
     checkThenCreate(room1);
-    List room2 = Arrays.asList("./data/room-1,0", "-1,0", "N", "A Blank Room", "a blank wall", "the neux", "a blank wall", "a blank wall");
+
+    List room2 = Arrays.asList(dataFolder+"room-1,0", "-1,0", "N", "A Blank Room", "a blank wall", "the neux", "a blank wall", "a blank wall");
     final HashMap guideDetails = new HashMap()
     {{
        put("category", "npc");
@@ -20,7 +31,7 @@ public class Loading {
        put("guide", guideDetails);
     }};
     checkThenCreate(room2, itemMap);
-    List room3 = Arrays.asList("./data/room1,0", "1,0", "N", "Home", "the neux", "a blank wall", "a blank wall", "a blank wall");
+    List room3 = Arrays.asList(dataFolder+"room1,0", "1,0", "N", "Home", "the neux", "a blank wall", "a blank wall", "a blank wall");
     final HashMap appleDetails = new HashMap()
     {{
        put("category", "food");
@@ -33,7 +44,7 @@ public class Loading {
        put("apple", appleDetails);
     }};
     checkThenCreate(room3, itemMap);
-    List current = Arrays.asList("./data/current", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
+    List current = Arrays.asList(dataFolder+"current", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
     checkThenCreate(current);
     createProfile();
   }
@@ -56,7 +67,7 @@ public class Loading {
        put("defense", "1");
        put("strength", "1");
     }};
-    String fileName = "./data/profile";
+    String fileName = dataFolder+"profile";
     File file = new File(fileName);
     if(!file.exists()) {
       writeFile(fileName, profileData);
