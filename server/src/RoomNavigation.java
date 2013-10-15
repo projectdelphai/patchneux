@@ -5,7 +5,7 @@ import flexjson.JSONDeserializer;
 public class RoomNavigation {
   private static String dataFolder;
 
-  public static void main(String[] arg) {
+  public RoomNavigation(String... arg) {
     if (arg.length != 0) {
       dataFolder = arg[0];
     } else {
@@ -154,6 +154,10 @@ public class RoomNavigation {
 
   public String move(String moveDirection) {
     HashMap roomData = getRoomData(dataFolder+"current");
+    String nameOfRoom = roomData.get(moveDirection).toString();
+    if (nameOfRoom.contains("(locked)")) {
+      return "The door is locked.";
+    }
     List cardinalRose = orientCardinalRose(roomData);
     if (blankWall(moveDirection, roomData)) {
       String response = "There is no room there. Try again";

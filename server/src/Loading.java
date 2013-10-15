@@ -16,10 +16,11 @@ public class Loading {
 
   public void prepGameData() {
     // filename, coordinate, orientation, name, left, right, ahead, behind,
+    List room4 = Arrays.asList(dataFolder+"room-1,1", "-1,1", "N", "A Room with a Book", "a blank wall", "a currently closed metro", "a blank room", "A Room With a Lock (locked)");
+    checkThenCreate(room4);
     List room1 = Arrays.asList(dataFolder+"room0,0", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
     checkThenCreate(room1);
-
-    List room2 = Arrays.asList(dataFolder+"room-1,0", "-1,0", "N", "A Blank Room", "a blank wall", "the neux", "a blank wall", "a blank wall");
+    List room2 = Arrays.asList(dataFolder+"room-1,0", "-1,0", "N", "A Room With a Lock", "a blank wall", "the neux", "A Room with a Book (locked)", "a blank wall");
     final HashMap guideDetails = new HashMap()
     {{
        put("category", "npc");

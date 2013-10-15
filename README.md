@@ -73,12 +73,12 @@ Goals
 
 ###Outside of patchneux###
 
-  1. Learn about lower-level programs
-  1. Write better docs
+ ~~1. Learn about lower-level programs~~
+ ~~1. Write better docs~~
   1. Learn about game programming
   1. Learn about multiplayer networking
-  1. Learn to write tests in java
-  1. Learn about git feature branches
+ ~~1. Learn to write tests in java~~
+ ~~1. Learn about git feature branches~~
 
  ~~1. Learn about packaging~~
 
@@ -93,7 +93,7 @@ Goals
 
   1. Remote traveling (the metro)
   1. Chat
-  1. Create rooms
+ ~~1. Create rooms~~
   1. Natural Language Processing 
   1. ASCII Art (?)
 
@@ -105,22 +105,23 @@ Helping Out
 ###Development###
 
  1. Create an issue (optional)
- 1. Grab the codebase
+ 1. Clone the codebase
+ 1. Create a branch
  1. Make your changes
+ 1. Merge branch
  1. Make a pull request
- 1. Write tests (optional but recommended for now)
+ 1. Write tests
 
 Todo
 -----------
-* lock a door
 * unlock a door
-* write a test for the above
 
 Changelog
 -----------
 0.0.4
 * introduced basic test support (using junit 4)
 * introduced dynamic data folder support (maybe leading to a config file?)
+* locked doors
 
 0.0.3
 * basic items (info, pickup, drop)

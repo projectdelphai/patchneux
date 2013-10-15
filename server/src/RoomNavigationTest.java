@@ -14,7 +14,7 @@ import java.io.File;
  */
 @RunWith(JUnit4.class)
 public class RoomNavigationTest {
-  private final RoomNavigation rnav = new RoomNavigation();
+  private final RoomNavigation rnav = new RoomNavigation("./testdata/");
     @BeforeClass
     public static void before() {
       Loading loading = new Loading("./testdata/");
@@ -30,6 +30,10 @@ public class RoomNavigationTest {
 
     @Test
     public void moveThroughLockedDoors() {
+      String response = rnav.move("left");
+      response = rnav.move("right");
+      String expected = "The door is locked.";
+      assertEquals("Failure - moved through locked door", expected, response);
     }
 
     @AfterClass
