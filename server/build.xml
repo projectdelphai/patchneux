@@ -48,7 +48,7 @@
       <batchtest fork="yes">
         <fileset dir="${src.dir}" includes="*Test.java"/>
       </batchtest>
-     </junit>
+    </junit>
   </target>
 
   <target name="run" depends="junit">

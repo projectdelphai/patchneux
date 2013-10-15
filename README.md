@@ -122,6 +122,7 @@ Changelog
 * introduced basic test support (using junit 4)
 * introduced dynamic data folder support (maybe leading to a config file?)
 * locked doors
+* teleport (more foundation than for practical, though it can be used in-game)
 
 0.0.3
 * basic items (info, pickup, drop)

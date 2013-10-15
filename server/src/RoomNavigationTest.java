@@ -2,9 +2,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import java.io.File;
 /**
@@ -12,13 +11,17 @@ import java.io.File;
  *
  * @author projectdelphai@gmail.com (Reuben Castelino)
  */
-@RunWith(JUnit4.class)
 public class RoomNavigationTest {
   private final RoomNavigation rnav = new RoomNavigation("./testdata/");
     @BeforeClass
-    public static void before() {
+    public static void beforeClass() {
       Loading loading = new Loading("./testdata/");
       loading.prepGameData();
+    }
+
+    @Before
+    public void beforeTest() {
+      String response = rnav.teleportToRoom("0,0");
     }
 
     @Test
@@ -30,10 +33,32 @@ public class RoomNavigationTest {
 
     @Test
     public void moveThroughLockedDoors() {
-      String response = rnav.move("left");
-      response = rnav.move("right");
+      String actual = rnav.move("left");
+      actual = rnav.move("right");
       String expected = "The door is locked.";
-      assertEquals("Failure - moved through locked door", expected, response);
+      assertEquals("Failure - moved through locked door", expected, actual);
+    }
+
+    @Test 
+    public void currentCoordinate() {
+      String expected = "0,0";
+      String actual = rnav.currentCoordinate();
+      assertEquals("Failure - current coordinate is not correct", expected, actual);
+    }
+
+    @Test
+    public void teleportToExistingRoom() {
+      String response = rnav.teleportToRoom("1,0");
+      String actual = rnav.currentCoordinate();
+      String expected = "1,0";
+      assertEquals("Failure - current coordinate is not correct", expected, actual);      
+    }
+
+    @Test 
+    public void teleportToNonExistingRoom() {
+      String actual = rnav.teleportToRoom("0,1");
+      String expected = "No room exists here.";
+      assertEquals("Failure - current coordinate is not correct", expected, actual);      
     }
 
     @AfterClass

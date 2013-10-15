@@ -10,7 +10,7 @@ public class Loading {
     if (arg.length != 0) {
       dataFolder = arg[0];
     } else {
-      dataFolder = dataFolder+"";
+      dataFolder = "./data/";
     }
   }
 

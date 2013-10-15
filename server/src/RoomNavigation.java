@@ -20,6 +20,12 @@ public class RoomNavigation {
     return roomData;
   }
 
+  public String currentCoordinate() {
+    HashMap roomData = getRoomData(dataFolder+"current");
+    String currentCoordinate = roomData.get("coordinate").toString();
+    return currentCoordinate;
+  }
+
   public String currentRoomIntro() {
     HashMap roomData = getRoomData(dataFolder+"current");
     HashMap itemMap = getItemMap(roomData);
@@ -254,5 +260,15 @@ public class RoomNavigation {
       nameOfRoom = tmpRoomData.get("name").toString();
       return nameOfRoom;
     }
+  }
+
+  public String teleportToRoom(String coordinate) {
+    if (!coordinateValid(coordinate)) {
+      return "No room exists here.";
+    }
+    HashMap targetRoomData = getRoomData(dataFolder+"room"+coordinate);
+    Loading loading = new Loading();
+    loading.writeFile(dataFolder+"current", targetRoomData);
+    return "You are now in "+targetRoomData.get("name");
   }
 }

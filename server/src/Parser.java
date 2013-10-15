@@ -34,6 +34,8 @@ public class Parser {
       response = new Item().dropItem(clientMessage.substring(4));
     } else if (clientMessage.startsWith("lookaround")) {
       response = new RoomNavigation().currentRoomIntro();
+    } else if (clientMessage.startsWith("teleport")) {
+      response = new RoomNavigation().teleportToRoom(clientMessage.substring(8));
     } else {
       return response;
     }
