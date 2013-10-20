@@ -3,6 +3,7 @@ import java.util.*;
 import flexjson.JSONDeserializer;
 
 public class IOMethods {
+
   public String readJsonFile(String fileName) {
     String line = null;
     String json = line;
@@ -19,5 +20,12 @@ public class IOMethods {
       e.printStackTrace();
     }
     return json;
+  }
+
+  public HashMap getData(String fileName) {
+    String json = readJsonFile(fileName);
+    HashMap data = new HashMap();
+    data = new JSONDeserializer<HashMap>().deserialize(json);
+    return data;
   }
 }

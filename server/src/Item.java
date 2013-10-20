@@ -3,9 +3,10 @@ import java.util.*;
 import flexjson.JSONDeserializer;
 
 public class Item {
+  private IOMethods meta = new IOMethods();
+
   public List validItem(String itemName, String fileName) {
-    String rawRoomJson = new IOMethods().readJsonFile(fileName);
-    HashMap roomData = new JSONDeserializer<HashMap>().deserialize(rawRoomJson);
+    HashMap roomData = meta.getData(fileName);
     List response = Arrays.asList("false");
     if (fileName.equals("./data/profile")) {
       for (Map.Entry<String, HashMap> profileEntry : ((HashMap<String, HashMap>)roomData).entrySet()) {
@@ -89,7 +90,7 @@ public class Item {
   }
 
   public String dropItem(String itemName) {
-    HashMap roomData = new RoomNavigation().getRoomData("./data/profile");
+    HashMap roomData = meta.getData("./data/profile");
     List itemData = validItem(itemName, "./data/profile");
     if (itemData.get(0).equals("true")) {
       roomData.remove(itemData.get(3));
@@ -99,13 +100,13 @@ public class Item {
       }};
       roomData.put(itemData.get(3), emptyInventory);
       new Loading().writeFile("./data/profile", roomData);
-      roomData = new RoomNavigation().getRoomData("./data/current");
+      roomData = meta.getData("./data/current");
       HashMap itemMap = new RoomNavigation().getItemMap(roomData);
       itemMap.put(itemData.get(1), itemData.get(2));
       roomData.put("items", itemMap);
       new Loading().writeFile("./data/current", roomData);
       String actualRoomName = "./data/room"+roomData.get("coordinate");
-      roomData = new RoomNavigation().getRoomData(actualRoomName);
+      roomData = meta.getData(actualRoomName);
       itemMap = new RoomNavigation().getItemMap(roomData);
       itemMap.put(itemData.get(1), itemData.get(2));
       roomData.put("items", itemMap);

@@ -15,6 +15,12 @@ public class Loading {
   }
 
   public void prepGameData() {
+    createRooms();
+    createProfile();
+    createNPCs();
+  }
+
+  public void createRooms() {
     // filename, coordinate, orientation, name, left, right, ahead, behind,
     List room4 = Arrays.asList(dataFolder+"room-1,1", "-1,1", "N", "A Room with a Book", "a blank wall", "a currently closed metro", "a blank room", "A Room With a Lock (locked)");
     checkThenCreate(room4);
@@ -24,12 +30,12 @@ public class Loading {
     final HashMap guideDetails = new HashMap()
     {{
        put("category", "npc");
-       put("description", "a helpful guide to help you out");
+       put("description", "a helpful Guide to help you out");
     }};
     HashMap itemMap = new HashMap()
     {{
        put("type", "items");
-       put("guide", guideDetails);
+       put("Guide", guideDetails);
     }};
     checkThenCreate(room2, itemMap);
     List room3 = Arrays.asList(dataFolder+"room1,0", "1,0", "N", "Home", "the neux", "a blank wall", "a blank wall", "a blank wall");
@@ -47,7 +53,6 @@ public class Loading {
     checkThenCreate(room3, itemMap);
     List current = Arrays.asList(dataFolder+"current", "0,0", "N", "The Neux", "a blank room", "your home", "a currently closed metro", "the exit");
     checkThenCreate(current);
-    createProfile();
   }
 
   public void createProfile() {
@@ -72,6 +77,42 @@ public class Loading {
     File file = new File(fileName);
     if(!file.exists()) {
       writeFile(fileName, profileData);
+    }
+  }
+
+  public void createNPCs() {
+    final HashMap emptyHashMap = new HashMap()
+    {{
+       put("type", "empty");
+    }};
+    final HashMap keyDetails = new HashMap()
+    {{
+       put("name", "key");
+       put("category", "key");
+       put("id", "1");
+       put("description", "a mysterious old key");
+    }};
+    final HashMap key = new HashMap()
+    {{
+       put("type", "key");
+       put("details", keyDetails);
+    }};
+    HashMap guideData = new HashMap()
+    {{
+       put("name", "Guide");
+       put("inventory1", key);
+       put("inventory2", emptyHashMap);
+       put("inventory3", emptyHashMap);
+       put("inventory4", emptyHashMap);
+       put("health", "1");
+       put("attack", "1");
+       put("defense", "1");
+       put("strength", "1");
+    }};
+    String fileName = dataFolder+"npcGuide";
+    File file = new File(fileName);
+    if(!file.exists()) {
+      writeFile(fileName, guideData);
     }
   }
 

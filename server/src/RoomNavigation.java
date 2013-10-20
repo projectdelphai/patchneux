@@ -4,6 +4,7 @@ import flexjson.JSONDeserializer;
 
 public class RoomNavigation {
   private static String dataFolder;
+  private IOMethods meta = new IOMethods();
 
   public RoomNavigation(String... arg) {
     if (arg.length != 0) {
@@ -13,21 +14,14 @@ public class RoomNavigation {
     }
   }
 
-  public HashMap getRoomData(String fileName) {
-    String json = new IOMethods().readJsonFile(fileName);
-    HashMap roomData = new HashMap();
-    roomData = new JSONDeserializer<HashMap>().deserialize(json);
-    return roomData;
-  }
-
   public String currentCoordinate() {
-    HashMap roomData = getRoomData(dataFolder+"current");
+    HashMap roomData = meta.getData(dataFolder+"current");
     String currentCoordinate = roomData.get("coordinate").toString();
     return currentCoordinate;
   }
 
   public String currentRoomIntro() {
-    HashMap roomData = getRoomData(dataFolder+"current");
+    HashMap roomData = meta.getData(dataFolder+"current");
     HashMap itemMap = getItemMap(roomData);
     String roomStructure = "Welcome to "+roomData.get("name") +". Ahead is "+ roomData.get("ahead") + ". Behind you is "+roomData.get("behind") +". To your right is " +roomData.get("right") + " and to your left is " + roomData.get("left") + ". ";
     String roomItems = null;
@@ -159,7 +153,7 @@ public class RoomNavigation {
   }
 
   public String move(String moveDirection) {
-    HashMap roomData = getRoomData(dataFolder+"current");
+    HashMap roomData = meta.getData(dataFolder+"current");
     String nameOfRoom = roomData.get(moveDirection).toString();
     if (nameOfRoom.contains("(locked)")) {
       return "The door is locked.";
@@ -178,7 +172,7 @@ public class RoomNavigation {
     int cardinalIndex = cardinalRose.indexOf(moveCardinalDirection);
     List sortedCardinalRose = orientList(cardinalRose, cardinalIndex);
     HashMap DirectionToCardinal = connectDirectionsToCardinal(cardinalRose, moveCardinalDirection);
-    HashMap newRoomData = getRoomData(dataFolder+"room"+newCoordinate);
+    HashMap newRoomData = meta.getData(dataFolder+"room"+newCoordinate);
     HashMap itemMap = getItemMap(newRoomData);
     List newCurrentRoom = Arrays.asList(dataFolder+"current", newCoordinate, sortedCardinalRose.get(0), newRoomData.get("name"), getAdjacentRoom(newRoomData, DirectionToCardinal.get("left")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("right")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("ahead")), getAdjacentRoom(newRoomData, DirectionToCardinal.get("behind")));
     Loading loading = new Loading();
@@ -198,7 +192,7 @@ public class RoomNavigation {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    HashMap roomData = getRoomData(dataFolder+"current");
+    HashMap roomData = meta.getData(dataFolder+"current");
     List cardinalRose = orientCardinalRose(roomData);
     String moveCardinalDirection = determineCardinalDirectionToMove(roomSide,roomData,cardinalRose);
     String newCoordinate = getNewCoordinate(moveCardinalDirection, roomData.get("coordinate").toString());
@@ -237,11 +231,11 @@ public class RoomNavigation {
     List orderOfCardinals = Arrays.asList("N", "W", "E", "S");
     for (Object sideRoomCoordinate : sideRooms) {
       if (coordinateValid(sideRoomCoordinate.toString())) {
-        HashMap newRoomData = getRoomData(dataFolder+"room"+sideRoomCoordinate);
+        HashMap newRoomData = meta.getData(dataFolder+"room"+sideRoomCoordinate);
         newRoomData.put(CardinalToDirection.get(oppositeCardinals.get(orderOfCardinals.get(index))), roomName);
         Loading loading = new Loading();
         loading.writeFile(dataFolder+"room"+sideRoomCoordinate, newRoomData);
-        HashMap currentRoomData = getRoomData(dataFolder+"current");
+        HashMap currentRoomData = meta.getData(dataFolder+"current");
         currentRoomData.put(roomSide, roomName);
         loading.writeFile(dataFolder+"current", currentRoomData);
       } else {
@@ -256,7 +250,7 @@ public class RoomNavigation {
     if (!coordinateValid(newCoordinate)) {
       return nameOfRoom;
     } else {
-      HashMap tmpRoomData = getRoomData(dataFolder+"room"+newCoordinate);
+      HashMap tmpRoomData = meta.getData(dataFolder+"room"+newCoordinate);
       nameOfRoom = tmpRoomData.get("name").toString();
       return nameOfRoom;
     }
@@ -266,7 +260,7 @@ public class RoomNavigation {
     if (!coordinateValid(coordinate)) {
       return "No room exists here.";
     }
-    HashMap targetRoomData = getRoomData(dataFolder+"room"+coordinate);
+    HashMap targetRoomData = meta.getData(dataFolder+"room"+coordinate);
     Loading loading = new Loading();
     loading.writeFile(dataFolder+"current", targetRoomData);
     return "You are now in "+targetRoomData.get("name");

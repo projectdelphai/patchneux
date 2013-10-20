@@ -114,7 +114,10 @@ Helping Out
 
 Todo
 -----------
+* talk to NPC
+* give/receive from NPC
 * unlock a door
+* remove getRoomData()
 
 Changelog
 -----------
@@ -123,6 +126,7 @@ Changelog
 * introduced dynamic data folder support (maybe leading to a config file?)
 * locked doors
 * teleport (more foundation than for practical, though it can be used in-game)
+* npc items
 
 0.0.3
 * basic items (info, pickup, drop)
