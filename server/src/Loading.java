@@ -41,6 +41,7 @@ public class Loading {
     List room3 = Arrays.asList(dataFolder+"room1,0", "1,0", "N", "Home", "the neux", "a blank wall", "a blank wall", "a blank wall");
     final HashMap appleDetails = new HashMap()
     {{
+       put("name", "apple");
        put("category", "food");
        put("description", "a juicy red apple ripe for consumption (+5)");
        put("healthIncrease", 5);
@@ -97,6 +98,19 @@ public class Loading {
        put("type", "key");
        put("details", keyDetails);
     }};
+    final HashMap dialogue = new HashMap()
+    {{
+       put("greet", "Hello! I'm feeling a little hungry, do you have anything to sate my hunger?");
+       put("apple", "Thanks! I found this key during my travels, please accept it as my thanks.");
+       put("key", "You want me to hold this for a while? Alright, here's an apple in exchange.");
+    }};
+    final HashMap switches = new HashMap()
+    {{
+       put("key", "apple");
+       put("apple", "key");
+    }};
+    final List acceptItems = Arrays.asList("key", "apple");
+    final List giveItems = Arrays.asList("key", "apple");
     HashMap guideData = new HashMap()
     {{
        put("name", "Guide");
@@ -108,6 +122,10 @@ public class Loading {
        put("attack", "1");
        put("defense", "1");
        put("strength", "1");
+       put("dialogue", dialogue);
+       put("switches", switches);
+       put("accepts", acceptItems);
+       put("gives", giveItems);
     }};
     String fileName = dataFolder+"npcGuide";
     File file = new File(fileName);

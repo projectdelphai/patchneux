@@ -23,7 +23,7 @@ In-Depth
 
 To move around:
 
-    gright, gleft, gahead, gbehind
+    goright, goleft, goahead, gobehind
 
 To create rooms:
 
@@ -48,6 +48,14 @@ To look around and learn about the room (important for after you've done an acti
 To drop items:
 
     drop<itemName>
+
+To greet NPC:
+
+    greet<NPCname>
+
+To give item to NPC:
+
+    give<itemName>to<NPCName>
 
 ###Bugs###
 
@@ -74,10 +82,14 @@ Goals
 ###Outside of patchneux###
 
  ~~1. Learn about lower-level programs~~
+
  ~~1. Write better docs~~
+
   1. Learn about game programming
   1. Learn about multiplayer networking
+
  ~~1. Learn to write tests in java~~
+
  ~~1. Learn about git feature branches~~
 
  ~~1. Learn about packaging~~
@@ -86,14 +98,17 @@ Goals
 
  ~~1. Moving around the rooms~~
 
-  1. Shortcuts to certain rooms (portals)
-  1. Items
+ ~~1. Shortcuts to certain rooms (portals)~~
+
+ ~~1. Items~~
 
  ~~1. Mapping the neux through a coordinate plane~~
 
   1. Remote traveling (the metro)
   1. Chat
+
  ~~1. Create rooms~~
+
   1. Natural Language Processing 
   1. ASCII Art (?)
 
@@ -114,10 +129,9 @@ Helping Out
 
 Todo
 -----------
-* talk to NPC
-* give/receive from NPC
+* game data creation by file
 * unlock a door
-* remove getRoomData()
+* handle Character/NPC class
 
 Changelog
 -----------
@@ -126,7 +140,7 @@ Changelog
 * introduced dynamic data folder support (maybe leading to a config file?)
 * locked doors
 * teleport (more foundation than for practical, though it can be used in-game)
-* npc items
+* give item/recieve item/talk to npc
 
 0.0.3
 * basic items (info, pickup, drop)

@@ -3,6 +3,19 @@ import java.util.*;
 import flexjson.JSONDeserializer;
 
 public class Character {
+  private IOMethods meta = new IOMethods();
+
+  private static String dataFolder;
+  List items;
+
+  public Character(String... arg) {
+    if (arg.length != 0) {
+      dataFolder = arg[0];
+    } else {
+      dataFolder = "./data/";
+    }
+  }
+
   public String aboutMe() {
     String json = new IOMethods().readJsonFile("./data/profile");
     HashMap profileData = new HashMap();
@@ -26,5 +39,20 @@ public class Character {
       response = response + " You current inventory holds a[n]: " + items + ".";
     }
     return response;
+  }
+
+  public List getItems() {
+    HashMap npcData = meta.getData(dataFolder+"profile");
+    List npcItems = new ArrayList();
+    for (Map.Entry<String, HashMap> npcEntry : ((HashMap<String, HashMap>)npcData).entrySet()) {
+      if (npcEntry.getKey().startsWith("inventory")) {
+        if (!npcEntry.getValue().get("type").equals("empty")) {
+          HashMap details = (HashMap)npcEntry.getValue().get("details");
+          String item = details.get("name").toString();
+          npcItems.add(item);
+        }
+      }
+    }
+    return npcItems;
   }
 }

@@ -9,8 +9,8 @@ public class Parser {
 
   public String parse(DataInputStream in, DataOutputStream out, String clientMessage) {
     String response = clientMessage;
-    if (clientMessage.startsWith("g")) {
-      clientMessage = clientMessage.substring(1);
+    if (clientMessage.startsWith("go")) {
+      clientMessage = clientMessage.substring(2);
       List options = Arrays.asList("right", "left", "ahead", "behind");
       if (options.contains(clientMessage)) {
         response = new RoomNavigation().move(clientMessage);
@@ -29,13 +29,21 @@ public class Parser {
     } else if (clientMessage.startsWith("i")) {
       response = new Item().info(clientMessage.substring(1));
     } else if (clientMessage.startsWith("p")) {
-      response = new Item().pickUp(clientMessage.substring(1));
+      response = new Item().pickUpItem(clientMessage.substring(1), "profile");
     } else if (clientMessage.startsWith("drop")) {
-      response = new Item().dropItem(clientMessage.substring(4));
+      response = new Item().dropItem(clientMessage.substring(4), "profile");
     } else if (clientMessage.startsWith("lookaround")) {
       response = new RoomNavigation().currentRoomIntro();
     } else if (clientMessage.startsWith("teleport")) {
       response = new RoomNavigation().teleportToRoom(clientMessage.substring(8));
+    } else if (clientMessage.startsWith("greet")) {
+      NPC npc = new NPC(clientMessage.substring(5));
+      response = npc.talk("greet");
+    } else if (clientMessage.startsWith("give")) {
+      String itemName = clientMessage.substring(4).split("to")[0];
+      String npcName = clientMessage.split("to")[1];
+      NPC npc = new NPC(npcName);
+      response = npc.giveNPC(itemName);
     } else {
       return response;
     }
