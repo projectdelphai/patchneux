@@ -57,6 +57,12 @@ To give item to NPC:
 
     give<itemName>to<NPCName>
 
+To apply item to doors:
+
+    apply<itemName>to<doorDirection>
+
+The door directions are right,left,ahead,behind
+
 ###Bugs###
 
  1. Room names may not yet contain any spaces.
@@ -135,6 +141,9 @@ Todo
 
 Changelog
 -----------
+0.0.5
+* unlock doors
+
 0.0.4
 * introduced basic test support (using junit 4)
 * introduced dynamic data folder support (maybe leading to a config file?)

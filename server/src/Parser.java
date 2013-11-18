@@ -44,6 +44,10 @@ public class Parser {
       String npcName = clientMessage.split("to")[1];
       NPC npc = new NPC(npcName);
       response = npc.giveNPC(itemName);
+    } else if (clientMessage.startsWith("apply")) {
+      String itemName = clientMessage.substring(4).split("to")[0];
+      String target = clientMessage.split("to")[1];
+      response = new Item().applyItem(itemName, target);
     } else {
       return response;
     }

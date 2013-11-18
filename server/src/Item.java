@@ -46,7 +46,7 @@ public class Item {
     itemMap.remove(itemName);
     roomData.put("items", itemMap);
     Loading loading = new Loading();
-    loading.writeFile(fileName, roomData);
+    loading.writeFile(dataFolder+fileName, roomData);
     if (fileName.equals(dataFolder+"current")) {
       String actualRoomName = dataFolder+"room"+roomData.get("coordinate");
       roomData = meta.getData(actualRoomName);
@@ -121,5 +121,47 @@ public class Item {
     } else {
       return "You don't have this item to drop.";
     }
+  }
+
+  public void changeDoorValue(String target, String targetName, String newTargetName, HashMap roomData) {
+    List doors = Arrays.asList("right", "left", "ahead", "behind");
+    roomData.put(target, newTargetName);
+    Loading loading = new Loading();
+    loading.writeFile(dataFolder+"current", roomData);
+    HashMap actualRoomData = new IOMethods().getData(dataFolder+"room"+roomData.get("coordinate"));
+    String hashMapKey;
+    for (Map.Entry entry : ((HashMap<String,String>)actualRoomData).entrySet()) {
+      if (doors.contains(entry.getKey())) {
+        if (entry.getValue().equals(targetName)) {
+          hashMapKey = entry.getKey().toString();
+          actualRoomData.put(hashMapKey, newTargetName);
+        }
+      }
+    }
+    loading.writeFile(dataFolder+"room"+roomData.get("coordinate"), actualRoomData);
+  }
+
+  public String applyItem(String itemName, String target) {
+    String response = "Target does not exist.";
+    List itemData = validItem(itemName, "profile");
+    if (itemData.get(0).equals("false")) {
+        response = "You do not have this item to apply to "+target;
+    }
+    List doors = Arrays.asList("right", "left", "ahead", "behind");
+    if (doors.contains(target)) {
+      response = "You cannot modify this door.";
+      HashMap roomData = new IOMethods().getData(dataFolder+"current");
+      String targetName = roomData.get(target).toString();
+      if (targetName.contains("(locked)")) {
+          String newTargetName = targetName.replace("(locked)", "(unlocked)");
+          changeDoorValue(target, targetName, newTargetName, roomData);
+          response = "You have unlocked the door";
+      } else if (targetName.contains("(unlocked)")) {
+          String newTargetName = targetName.replace("(unlocked)", "(locked)");
+          changeDoorValue(target, targetName, newTargetName, roomData);
+          response = "You have locked the door";
+      }
+    }
+    return response;
   }
 }
