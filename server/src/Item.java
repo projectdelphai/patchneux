@@ -26,7 +26,7 @@ public class Item {
         }
       }
     } else {
-      HashMap itemMap = new RoomNavigation().getItemMap(roomData);
+      HashMap itemMap = new RoomNavigation(dataFolder).getItemMap(roomData);
       if (itemMap != null) {
         if (itemMap.size() > 0) {
           for (Map.Entry<String, HashMap> roomItemsEntry : ((HashMap<String, HashMap>)itemMap).entrySet()) {
@@ -42,7 +42,7 @@ public class Item {
 
   public void removeItem(String itemName, String fileName) {
     HashMap roomData = meta.getData(dataFolder+"current");
-    HashMap itemMap = new RoomNavigation().getItemMap(roomData);
+    HashMap itemMap = new RoomNavigation(dataFolder).getItemMap(roomData);
     itemMap.remove(itemName);
     roomData.put("items", itemMap);
     Loading loading = new Loading();
@@ -107,13 +107,13 @@ public class Item {
       roomData.put(itemData.get(3), emptyInventory);
       new Loading().writeFile(dataFolder+holder, roomData);
       roomData = meta.getData(dataFolder+"current");
-      HashMap itemMap = new RoomNavigation().getItemMap(roomData);
+      HashMap itemMap = new RoomNavigation(dataFolder).getItemMap(roomData);
       itemMap.put(itemData.get(1), itemData.get(2));
       roomData.put("items", itemMap);
       new Loading().writeFile(dataFolder+"current", roomData);
       String actualRoomName = dataFolder+"room"+roomData.get("coordinate");
       roomData = meta.getData(actualRoomName);
-      itemMap = new RoomNavigation().getItemMap(roomData);
+      itemMap = new RoomNavigation(dataFolder).getItemMap(roomData);
       itemMap.put(itemData.get(1), itemData.get(2));
       roomData.put("items", itemMap);
       new Loading().writeFile(actualRoomName, roomData);

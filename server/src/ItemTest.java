@@ -34,15 +34,12 @@ public class ItemTest {
   public void unlockRoom() {
     String response = rnav.move("right");
     response = item.pickUpItem("apple", "profile");
-    rnav.dataFolder = "./testdata/";
-    rnav.teleportToRoom("0,0");
-    rnav.move("left");
+    rnav.teleportToRoom("-1,0");
     NPC npc = new NPC("Guide", "./testdata/");
     npc.giveNPC("apple");
-    response = item.applyItem("key","right");
+    response = item.applyItem("key","ahead");
     String expected = "Welcome to A Room with a Book. Ahead is a blank room. Behind you is A Room With a Lock (locked). To your right is a currently closed metro and to your left is a blank wall.";
-    rnav.dataFolder = "./testdata/";
-    String actual = rnav.move("right");
+    String actual = rnav.move("ahead");
     assertEquals("Failure - key did not unlock the door.", expected, actual);
   }
  

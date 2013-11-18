@@ -3,7 +3,7 @@ import java.util.*;
 import flexjson.JSONDeserializer;
 
 public class RoomNavigation {
-  static String dataFolder;
+  private static String dataFolder;
   private IOMethods meta = new IOMethods();
 
   public RoomNavigation(String... arg) {
