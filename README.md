@@ -76,8 +76,6 @@ patchneux is my first project written in Java and is my way of figuring out the 
 
 This does mean, however, that I will make mistakes. And many of them. Bear with me and feel free to correct me and/or make pull requests when I do something wrong.
 
-And since this is a patchwork world, I want to allow for plugins, extensions, and modules(?) that can be written in different languages. 
-
 The way I am currently building patchneux is through a server/client method EVEN LOCALLY. This means that a patchneux server holds all the commands and the thinking, but the user never works with the server. Different clients are built to interact with the server ranging from the easiest (command line prompt) to the harder (graphical art with gui) to the hardest (oculus rift virtual graphics or verbal command prompt). I will be focusing more on the server than the clients through I may try my hand at some if no one steps up to try them. 
 
 Be forewarned that the default client will be VERY basic since I will just be using it to test new features in the patchneux server.
