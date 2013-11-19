@@ -61,9 +61,21 @@ public class Loading {
     {{
        put("type", "empty");
     }};
+    final HashMap trapBagDetails = new HashMap()
+    {{
+         put("name", "trapBag");
+         put("category", "trapBag");
+         put("description", "a bag to hold traps");
+         put("StatDrop", "1");
+    }};
+    final HashMap trapBag = new HashMap()
+    {{
+         put("type", "trapBag");
+         put("details", trapBagDetails);
+    }};
     HashMap profileData = new HashMap()
     {{
-       put("inventory1", emptyHashMap);
+       put("inventory1", trapBag);
        put("inventory2", emptyHashMap);
        put("inventory3", emptyHashMap);
        put("inventory4", emptyHashMap);

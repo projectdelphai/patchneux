@@ -141,7 +141,8 @@ public class Item {
     loading.writeFile(dataFolder+"room"+roomData.get("coordinate"), actualRoomData);
   }
 
-  public String applyItem(String itemName, String target) {
+  public String applyItem(HashMap itemMap, String target) {
+    String itemName = itemMap.keySet().iterator().next().toString();
     String response = "Target does not exist.";
     List itemData = validItem(itemName, "profile");
     if (itemData.get(0).equals("false")) {
@@ -152,14 +153,19 @@ public class Item {
       response = "You cannot modify this door.";
       HashMap roomData = new IOMethods().getData(dataFolder+"current");
       String targetName = roomData.get(target).toString();
-      if (targetName.contains("(locked)")) {
-          String newTargetName = targetName.replace("(locked)", "(unlocked)");
-          changeDoorValue(target, targetName, newTargetName, roomData);
-          response = "You have unlocked the door";
-      } else if (targetName.contains("(unlocked)")) {
-          String newTargetName = targetName.replace("(unlocked)", "(locked)");
-          changeDoorValue(target, targetName, newTargetName, roomData);
-          response = "You have locked the door";
+      if (((HashMap)itemData.get(2)).get("category").equals("key")) {
+          if (targetName.contains("(locked)")) {
+              String newTargetName = targetName.replace("(locked)", "(unlocked)");
+              changeDoorValue(target, targetName, newTargetName, roomData);
+              response = "You have unlocked the door";
+          } else if (targetName.contains("(unlocked)")) {
+              String newTargetName = targetName.replace("(unlocked)", "(locked)");
+              changeDoorValue(target, targetName, newTargetName, roomData);
+              response = "You have locked the door";
+          }
+      } else if (((HashMap)itemData.get(2)).get("category").equals("trapBag")) {
+          String trapType = ((HashMap)itemMap.get("trapBag")).get("name").toString();
+          String trapEffect = ((HashMap)itemMap.get("trapBag")).get("effect").toString();
       }
     }
     return response;

@@ -47,9 +47,11 @@ public class Character {
     for (Map.Entry<String, HashMap> npcEntry : ((HashMap<String, HashMap>)npcData).entrySet()) {
       if (npcEntry.getKey().startsWith("inventory")) {
         if (!npcEntry.getValue().get("type").equals("empty")) {
-          HashMap details = (HashMap)npcEntry.getValue().get("details");
-          String item = details.get("name").toString();
-          npcItems.add(item);
+          if (!npcEntry.getValue().get("type").equals("trapBag")) {
+              HashMap details = (HashMap)npcEntry.getValue().get("details");
+              String item = details.get("name").toString();
+              npcItems.add(item);
+          }
         }
       }
     }
